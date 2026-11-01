@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block contenu %}
+<div class="stats" id="stats"></div>
+
+<div class="filtres">
+  <input type="search" id="f-texte" placeholder="Rechercher (titre, mission, entreprise…)">
+  <select id="f-entreprise">
+    <option value="">Toutes les entreprises</option>
+    {% for e in entreprises %}<option value="{{ e.id }}">{{ e.nom }}</option>{% endfor %}
+  </select>
+  <select id="f-compat">
+    <option value="utiles">Compatibles + à vérifier</option>
+    <option value="ok">Compatibles seulement</option>
+    <option value="toutes">Toutes (y compris 6 mois)</option>
+  </select>
+  <select id="f-suivi">
+    <option value="a_traiter">À traiter</option>
+    <option value="postule">Postulé</option>
+    <option value="ignore">Ignorées</option>
+    <option value="">Tous les suivis</option>
+  </select>
+  <label><input type="checkbox" id="f-horsligne"> afficher les offres retirées</label>
+</div>
+
+<div class="grille">
+  <div class="liste" id="liste"></div>
+  <aside class="panneau" id="panneau">
+    <div class="vide" style="border:0">Clique sur une offre pour voir ton CV adapté.</div>
+  </aside>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const OFFRES = {{ offres|tojson }};
+const COMPAT = {{ COMPAT_LABEL|tojson }};
+const LIEU = {{ LIEU_LABEL|tojson }};
+const DOM = {{ DOMAINE_LABEL|tojson }};
+const NB_ENT = {{ entreprises|length }};
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let choisie = null;
+const ilYa = iso => {
+  const j = Math.floor((Date.now() - new Date(iso)) / 864e5);
+  return j <= 0 ? "aujourd'hui" : j === 1 ? 'hier' : `il y a ${j} j`;
+};
+// Les offres trouvées au tout premier passage sur une entreprise ne sont pas « nouvelles ».
+const estNouvelle = o => !o.initial && (Date.now() - new Date(o.trouve_le)) < 3 * 864e5;
+
+function filtrer() {
+  const t = $('f-texte').value.toLowerCase(), e = $('f-entreprise').value, c = $('f-compat').value,
+        s = $('f-suivi').value, hl = $('f-horsligne').checked;
+  return OFFRES.filter(o =>
+    (hl || o.en_ligne) && (!e || o.entreprise_id === e) && (!s || o.suivi === s) &&
+    (c === 'toutes' || (c === 'ok' ? o.compat.statut === 'ok' : o.compat.statut !== 'ko')) &&
+    (!t || (o.titre + ' ' + o.entreprise + ' ' + o.but + ' ' + o.missions.join(' ')).toLowerCase().includes(t)));
+}
+
+function stats() {
+  const enLigne = OFFRES.filter(o => o.en_ligne);
+  $('stats').innerHTML = [
+    [enLigne.length, 'stages en ligne'],
+    [enLigne.filter(o => o.compat.statut === 'ok').length, 'compatibles mai–juil.'],
+    [enLigne.filter(estNouvelle).length, 'nouveaux (3 j)'],
+    [OFFRES.filter(o => o.suivi === 'postule').length, 'candidatures'],
+    [NB_ENT, 'entreprises suivies'],
+  ].map(([n, l]) => `<div class="stat"><b>${n}</b><span>${l}</span></div>`).join('');
+}
+
+function carte(o) {
+  const doms = Object.keys(o.domaines).map(d => `<span class="badge dom">${DOM[d]}</span>`).join(' ');
+  const miss = o.missions.slice(0, 4).map(m => `<li>${esc(m)}</li>`).join('');
+  return `<div class="offre ${o.id === choisie ? 'choisie' : ''} ${o.en_ligne ? '' : 'hors-ligne'}" data-id="${o.id}">
+    <div class="ent">${esc(o.entreprise)} ${estNouvelle(o) ? '<span class="badge nouveau">Nouveau</span>' : ''}</div>
+    <h3>${esc(o.titre)}</h3>
+    <div class="meta">
+      <span class="badge ${o.compat.statut}">${COMPAT[o.compat.statut]}</span>
+      ${o.compat.detail ? `<span>${esc(o.compat.detail)}</span> ·` : ''}
+      <span>📍 ${esc(o.lieu ? o.lieu.slice(0, 60) : LIEU[o.lieu_statut])}</span> ·
+      <span>trouvée ${ilYa(o.trouve_le)}</span> ${doms}
+      ${o.en_ligne ? '' : '<span class="badge ko">Retirée</span>'}
+    </div>
+    ${o.but ? `<p class="but"><b>But :</b> ${esc(o.but)}</p>` : ''}
+    ${miss ? `<ul>${miss}</ul>` : ''}
+    <div class="actions">
+      <a class="btn primaire petit" href="${esc(o.url)}" target="_blank" rel="noopener">Voir l'offre et postuler ↗</a>
+      <select class="suivi" data-id="${o.id}">
+        ${[['a_traiter','À traiter'],['postule','Postulé ✓'],['ignore','Ignorer']].map(([v,l]) =>
+          `<option value="${v}" ${o.suivi === v ? 'selected' : ''}>${l}</option>`).join('')}
+      </select>
+    </div>
+  </div>`;
+}
+
+function afficher() {
+  const l = filtrer();
+  $('liste').innerHTML = l.length ? l.map(carte).join('') :
+    `<div class="vide">${OFFRES.length ? 'Aucune offre avec ces filtres.' :
+      'Aucune offre pour l’instant. Clique sur « ↻ Vérifier maintenant » en haut à droite.'}</div>`;
+  if (!choisie && l.length) choisir(l[0].id);
+}
+
+async function choisir(id) {
+  choisie = id;
+  document.querySelectorAll('.offre').forEach(c => c.classList.toggle('choisie', c.dataset.id === id));
+  const o = OFFRES.find(x => x.id === id);
+  $('panneau').innerHTML = `
+    <div class="tete">
+      <div class="titre">CV adapté · ${esc(o.entreprise)}</div>
+      <a class="btn petit" href="/cv/${id}" target="_blank">Ouvrir / PDF</a>
+      <a class="btn primaire petit" href="${esc(o.url)}" target="_blank" rel="noopener">Postuler ↗</a>
+    </div>
+    <div class="analyse" id="analyse">Analyse…</div>
+    <iframe src="/cv/${id}?embed=1" title="CV adapté"></iframe>`;
+  const a = await (await fetch(`/cv/${id}/analyse`)).json();
+  $('analyse').innerHTML = `
+    <b>Adéquation CV / offre : ${a.adequation} %</b>
+    <div class="jauge"><i style="width:${a.adequation}%"></i></div>
+    ${a.couverts.length ? `<div>✅ Mis en avant : ${a.couverts.map(esc).join(', ')}</div>` : ''}
+    ${a.manquants.length ? `<div>⚠️ Demandé mais absent du CV : ${a.manquants.map(esc).join(', ')}</div>` : ''}
+    ${a.conseils.length ? `<ul>${a.conseils.map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}`;
+}
+
+$('liste').addEventListener('click', e => {
+  if (e.target.closest('a, select')) return;
+  const c = e.target.closest('.offre');
+  if (c) choisir(c.dataset.id);
+});
+$('liste').addEventListener('change', async e => {
+  if (!e.target.classList.contains('suivi')) return;
+  const id = e.target.dataset.id, suivi = e.target.value;
+  await fetch(`/api/offre/${id}/suivi`, {method: 'POST', headers: {'Content-Type': 'application/json'},
+                                         body: JSON.stringify({suivi})});
+  OFFRES.find(o => o.id === id).suivi = suivi;
+  stats(); afficher();
+});
+['f-texte', 'f-entreprise', 'f-compat', 'f-suivi', 'f-horsligne'].forEach(i => $(i).addEventListener('input', afficher));
+stats(); afficher();
+</script>
+{% endblock %}

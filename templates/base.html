@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titre %}Recherche de stage{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="top">
+  <div class="logo">Recherche de stage · mai – juil. 2027</div>
+  <nav>
+    <a href="{{ url_for('accueil') }}" class="{{ 'actif' if request.endpoint == 'accueil' }}">Offres</a>
+    <a href="{{ url_for('entreprises') }}" class="{{ 'actif' if request.endpoint == 'entreprises' }}">Entreprises</a>
+    <a href="{{ url_for('cv') }}" class="{{ 'actif' if request.endpoint == 'cv' }}" target="_blank">Mon CV</a>
+    <a href="{{ url_for('reglages') }}" class="{{ 'actif' if request.endpoint == 'reglages' }}">Notifications</a>
+  </nav>
+  <div class="droite">
+    <span id="verif-statut"></span>
+    <button class="btn petit" id="btn-verifier">↻ Vérifier maintenant</button>
+  </div>
+</header>
+<main class="page">
+{% block contenu %}{% endblock %}
+</main>
+<script>
+(function () {
+  const btn = document.getElementById('btn-verifier');
+  const st = document.getElementById('verif-statut');
+  let suivait = false;
+  async function sonder() {
+    const v = await (await fetch('/api/verification')).json();
+    if (v.en_cours) {
+      suivait = true;
+      btn.disabled = true;
+      st.textContent = 'Vérification… ' + (v.journal.length ? v.journal[v.journal.length - 1] : '');
+      setTimeout(sonder, 1500);
+    } else {
+      btn.disabled = false;
+      st.textContent = v.fin ? 'Dernière vérification : ' + v.fin.replace('T', ' ').slice(0, 16) : '';
+      if (suivait) location.reload();
+    }
+  }
+  btn.addEventListener('click', async () => {
+    await fetch('/api/verifier', {method: 'POST'});
+    sonder();
+  });
+  sonder();
+})();
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

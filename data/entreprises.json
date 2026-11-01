@@ -1,0 +1,79 @@
+[
+  {
+    "id": "wavestone", "nom": "Wavestone", "secteur": "Conseil en transformation – practice Energy & Utilities",
+    "lieu": "La Défense (Tour Franklin)",
+    "pourquoi": "Cabinet de conseil français qui accompagne les énergéticiens (production, réseaux, fournisseurs) dans leur transformation. Les stages « consultant·e junior » consistent à cadrer des projets, faire des benchmarks, animer des ateliers clients et piloter (PMO) des programmes de transition énergétique.",
+    "url_carrieres": "https://careers.smartrecruiters.com/Wavestone1",
+    "source": {"type": "smartrecruiters", "societe": "Wavestone1"}, "actif": true
+  },
+  {
+    "id": "sia-partners", "nom": "Sia Partners", "secteur": "Conseil en management – Energy, Resources & Utilities",
+    "lieu": "Paris",
+    "pourquoi": "Cabinet historiquement très présent dans l'énergie. En stage, tu interviens en mission chez un client : analyses de marché, modélisation sous Excel, études réglementaires (électricité, gaz, hydrogène), appui à des projets de décarbonation et préparation de livrables.",
+    "url_carrieres": "https://www.sia-partners.com/fr/opportunities",
+    "source": {"type": "html", "url": "https://www.sia-partners.com/fr/opportunities", "motif": "/career/", "pages": 40}, "actif": true
+  },
+  {
+    "id": "bearingpoint", "nom": "BearingPoint", "secteur": "Conseil en management & technologie",
+    "lieu": "Courbevoie – Paris La Défense",
+    "pourquoi": "Cabinet de conseil avec une équipe Énergie & Utilities. Les stages de consultant portent sur l'optimisation des opérations, la conduite du changement et des projets de transformation chez des énergéticiens et industriels : analyse, recommandations, suivi de projet.",
+    "url_carrieres": "https://carrieresfrance.bearingpoint.com/jobs",
+    "source": {"type": "teamtailor", "rss": "https://carrieresfrance.bearingpoint.com/jobs.rss"}, "actif": true
+  },
+  {
+    "id": "accenture", "nom": "Accenture", "secteur": "Conseil & technologie – Energy & Utilities",
+    "lieu": "Paris",
+    "pourquoi": "Grand cabinet de conseil. Les stages « consultant stagiaire Energy & Utilities » ou « Strategy » consistent à analyser des marchés de l'énergie, construire des business cases et accompagner des projets de transformation (réseaux, renouvelables, mobilité électrique).",
+    "url_carrieres": "https://accenture.wd103.myworkdayjobs.com/AccentureCareers",
+    "source": {"type": "workday", "host": "accenture.wd103.myworkdayjobs.com", "tenant": "accenture", "site": "AccentureCareers"}, "actif": true
+  },
+  {
+    "id": "colombus-consulting", "nom": "Colombus Consulting", "secteur": "Conseil en management – Énergie & Utilities",
+    "lieu": "Paris",
+    "pourquoi": "Cabinet de conseil indépendant dont l'énergie est un secteur clé (fournisseurs, gestionnaires de réseaux). Les stages portent sur le pilotage de projets de transformation, l'amélioration de processus et l'analyse de données pour des acteurs de l'énergie.",
+    "url_carrieres": "https://career.colombus-consulting.com/",
+    "source": {"type": "flux_json", "url": "https://career.colombus-consulting.com/jobs.feed.json"}, "actif": true
+  },
+  {
+    "id": "artelys", "nom": "Artelys", "secteur": "Conseil & optimisation des systèmes énergétiques",
+    "lieu": "Paris",
+    "pourquoi": "PME experte en modélisation et optimisation des systèmes énergétiques (réseaux électriques européens, mix de production, stockage). Les stages sont très techniques : construire ou améliorer des modèles d'optimisation, simuler des scénarios de transition énergétique, analyser les résultats pour des études de conseil.",
+    "url_carrieres": "https://www.artelys.com/fr/carrieres/",
+    "source": {"type": "html", "url": "https://www.artelys.com/fr/carrieres/", "motif": "taleez.com/apply"}, "actif": true
+  },
+  {
+    "id": "assystem", "nom": "Assystem", "secteur": "Ingénierie nucléaire & transition énergétique",
+    "lieu": "Courbevoie – La Défense",
+    "pourquoi": "Groupe d'ingénierie spécialisé dans le nucléaire, les réseaux électriques et les renouvelables. Les stages ingénieur portent sur la gestion de projet, la sûreté, le calcul mécanique ou thermique et le suivi de chantiers de grands projets énergétiques.",
+    "url_carrieres": "https://careers.smartrecruiters.com/Assystem",
+    "source": {"type": "smartrecruiters", "societe": "Assystem"}, "actif": true
+  },
+  {
+    "id": "alten", "nom": "Alten", "secteur": "Ingénierie & conseil en technologies",
+    "lieu": "Boulogne-Billancourt (92)",
+    "pourquoi": "Leader de l'ingénierie externalisée, avec des projets dans l'énergie, l'automobile et l'industrie. Les stages ingénieur couvrent la conception mécanique, la qualité, les méthodes industrielles et le PMO, souvent en mission chez un client.",
+    "url_carrieres": "https://careers.smartrecruiters.com/ALTEN",
+    "source": {"type": "smartrecruiters", "societe": "ALTEN"}, "actif": true
+  },
+  {
+    "id": "artelia", "nom": "Artelia", "secteur": "Ingénierie multidisciplinaire – énergie, bâtiment, industrie",
+    "lieu": "Saint-Ouen-sur-Seine (93) et Paris",
+    "pourquoi": "Bureau d'études qui conçoit des projets d'énergie, de bâtiments et d'infrastructures. Les stages en bureau d'études portent sur le dimensionnement, la modélisation (thermique, acoustique, fluides), les études de faisabilité et le suivi de projets.",
+    "url_carrieres": "https://careers.smartrecruiters.com/Artelia",
+    "source": {"type": "smartrecruiters", "societe": "Artelia"}, "actif": true
+  },
+  {
+    "id": "setec", "nom": "Setec", "secteur": "Ingénierie – énergie, environnement, bâtiment",
+    "lieu": "Paris 12e",
+    "pourquoi": "Groupe d'ingénierie indépendant (dont Setec énergie environnement). Les stages en bureau d'études portent sur la conception technique, les études énergétiques et environnementales et l'appui aux chefs de projet.",
+    "url_carrieres": "https://setec.nous-recrutons.fr/offres-emploi/",
+    "source": {"type": "html", "url": "https://setec.nous-recrutons.fr/offres-emploi/"}, "actif": true
+  },
+  {
+    "id": "totalenergies", "nom": "TotalEnergies", "secteur": "Énergéticien (bonus, hors conseil)",
+    "lieu": "Courbevoie – La Défense",
+    "pourquoi": "Pas un cabinet de conseil, mais beaucoup de stages ingénieur à La Défense : renouvelables, électricité, efficacité énergétique, analyse de marchés. Les missions mêlent études techniques, analyse de données et gestion de projet. Mets-la en pause si tu veux rester sur le conseil.",
+    "url_carrieres": "https://jobs.totalenergies.com/fr_FR/careers/SearchJobs/stage",
+    "source": {"type": "html", "url": "https://jobs.totalenergies.com/fr_FR/careers/SearchJobs/stage", "motif": "JobDetail"}, "actif": true
+  }
+]

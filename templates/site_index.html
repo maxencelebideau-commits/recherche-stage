@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Stages">
+  <meta name="theme-color" content="#1f3550">
+  <title>Stages mai – juil. 2027</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { padding-bottom: env(safe-area-inset-bottom); }
+    header.top { height: auto; min-height: 56px; padding: calc(10px + env(safe-area-inset-top)) 16px 10px; flex-wrap: wrap; gap: 4px 16px; }
+    header.top .droite { margin-left: auto; }
+    main.page { max-width: 760px; padding: 14px 16px; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .stat { min-width: 0; padding: 8px 10px; }
+    .stat b { font-size: 19px; }
+    .filtres { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .filtres input[type=search] { grid-column: 1 / -1; min-width: 0; }
+    .filtres select, .filtres input { width: 100%; font-size: 16px; }
+    .offre { cursor: default; }
+    .offre .actions { flex-wrap: wrap; }
+    .offre .actions select { font: inherit; padding: 4px 8px; border: 1px solid var(--ligne); border-radius: 7px; background: #fff; }
+    details.adq { margin-top: 8px; font-size: 13px; color: #39434f; }
+    details.adq summary { cursor: pointer; color: var(--bleu); font-weight: 600; }
+    details.bloc { background: var(--carte); border: 1px solid var(--ligne); border-radius: 10px; padding: 12px 16px; margin-top: 16px; }
+    details.bloc summary { cursor: pointer; font-weight: 600; }
+    details.bloc textarea { width: 100%; min-height: 90px; font: inherit; font-size: 16px; padding: 8px; border: 1px solid var(--ligne); border-radius: 7px; }
+    .ent-ligne { padding: 10px 0; border-bottom: 1px solid var(--ligne); line-height: 1.45; }
+    .ent-ligne:last-child { border-bottom: 0; }
+    @media (max-width: 520px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+<header class="top">
+  <div class="logo">Stages · mai – juil. 2027</div>
+  <div class="droite">Mis à jour le {{ maj }}</div>
+</header>
+<main class="page">
+  <div class="stats" id="stats"></div>
+  <div class="filtres">
+    <input type="search" id="f-texte" placeholder="Rechercher (titre, mission, entreprise…)">
+    <select id="f-entreprise">
+      <option value="">Toutes les entreprises</option>
+      {% for e in entreprises %}<option value="{{ e.id }}">{{ e.nom }}</option>{% endfor %}
+    </select>
+    <select id="f-compat">
+      <option value="utiles">Compatibles + à vérifier</option>
+      <option value="ok">Compatibles seulement</option>
+      <option value="toutes">Toutes (y compris 6 mois)</option>
+    </select>
+    <select id="f-suivi" style="grid-column: 1 / -1">
+      <option value="a_traiter">À traiter</option>
+      <option value="postule">Postulé</option>
+      <option value="ignore">Ignorées</option>
+      <option value="">Tous les suivis</option>
+    </select>
+  </div>
+  <div class="liste" id="liste"></div>
+
+  <details class="bloc" id="bloc-moi">
+    <summary>Mes coordonnées sur le CV (restent sur ce téléphone)</summary>
+    <p class="sous">Elles ne sont jamais publiées : elles sont gardées dans ce navigateur et ajoutées à tes CV à l'affichage.</p>
+    <p><b>Une ligne par information</b> (téléphone, e-mail, adresse…)</p>
+    <textarea id="moi-lignes" placeholder="06 …&#10;prenom.nom@…&#10;Adresse"></textarea>
+    <p><b>Photo</b> <input type="file" id="moi-photo" accept="image/*"></p>
+    <p><button class="btn primaire" id="moi-enregistrer">Enregistrer</button> <span id="moi-ok" class="sous"></span>
+       · <a href="cv/moi.html">Voir mon CV</a></p>
+  </details>
+
+  <details class="bloc">
+    <summary>Entreprises suivies ({{ entreprises|length }})</summary>
+    {% for e in entreprises %}
+      {% set st = etat.get(e.id, {}) %}
+      <div class="ent-ligne"><b>{{ e.nom }}</b> · <span class="sous">{{ e.secteur }} · 📍 {{ e.lieu }}</span><br>
+        {{ e.pourquoi }}<br>
+        <span class="sous">{% if st.erreur %}⚠ source en erreur{% elif st.derniere %}{{ st.stages }} stage(s) retenu(s){% endif %}
+          · <a href="{{ e.url_carrieres }}" target="_blank" rel="noopener">site carrières</a></span></div>
+    {% endfor %}
+    <p class="sous">Pour ajouter ou retirer une entreprise : modifie <code>data/entreprises.json</code> sur GitHub.</p>
+  </details>
+</main>
+
+<script>
+const OFFRES = {{ offres|tojson }};
+const COMPAT = {{ COMPAT_LABEL|tojson }};
+const LIEU = {{ LIEU_LABEL|tojson }};
+const DOM = {{ DOMAINE_LABEL|tojson }};
+const NB_ENT = {{ entreprises|length }};
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const lire = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } };
+const ecrire = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } };
+
+// Suivi des candidatures : propre à ce téléphone.
+const suivi = lire('suivi', {});
+const suiviDe = o => suivi[o.id] || 'a_traiter';
+const ilYa = iso => {
+  const j = Math.floor((Date.now() - new Date(iso)) / 864e5);
+  return j <= 0 ? "aujourd'hui" : j === 1 ? 'hier' : `il y a ${j} j`;
+};
+const estNouvelle = o => !o.initial && (Date.now() - new Date(o.trouve_le)) < 3 * 864e5;
+
+function filtrer() {
+  const t = $('f-texte').value.toLowerCase(), e = $('f-entreprise').value, c = $('f-compat').value, s = $('f-suivi').value;
+  return OFFRES.filter(o => (!e || o.entreprise_id === e) && (!s || suiviDe(o) === s) &&
+    (c === 'toutes' || (c === 'ok' ? o.compat.statut === 'ok' : o.compat.statut !== 'ko')) &&
+    (!t || (o.titre + ' ' + o.entreprise + ' ' + o.but + ' ' + o.missions.join(' ')).toLowerCase().includes(t)));
+}
+
+function stats() {
+  $('stats').innerHTML = [
+    [OFFRES.length, 'stages en ligne'],
+    [OFFRES.filter(o => o.compat.statut === 'ok').length, 'compatibles'],
+    [OFFRES.filter(estNouvelle).length, 'nouveaux (3 j)'],
+    [OFFRES.filter(o => suiviDe(o) === 'postule').length, 'candidatures'],
+  ].map(([n, l]) => `<div class="stat"><b>${n}</b><span>${l}</span></div>`).join('');
+}
+
+function carte(o) {
+  const a = o.analyse;
+  const doms = Object.keys(o.domaines).map(d => `<span class="badge dom">${DOM[d]}</span>`).join(' ');
+  const miss = o.missions.slice(0, 4).map(m => `<li>${esc(m)}</li>`).join('');
+  return `<div class="offre">
+    <div class="ent">${esc(o.entreprise)} ${estNouvelle(o) ? '<span class="badge nouveau">Nouveau</span>' : ''}</div>
+    <h3>${esc(o.titre)}</h3>
+    <div class="meta">
+      <span class="badge ${o.compat.statut}">${COMPAT[o.compat.statut]}</span>
+      ${o.compat.detail ? `<span>${esc(o.compat.detail)}</span> ·` : ''}
+      <span>📍 ${esc(o.lieu ? o.lieu.slice(0, 50) : LIEU[o.lieu_statut])}</span> ·
+      <span>${ilYa(o.trouve_le)}</span> ${doms}
+    </div>
+    ${o.but ? `<p class="but"><b>But :</b> ${esc(o.but)}</p>` : ''}
+    ${miss ? `<ul>${miss}</ul>` : ''}
+    <details class="adq"><summary>Adéquation de ton CV : ${a.adequation} %</summary>
+      ${a.couverts.length ? `<div>✅ Mis en avant : ${a.couverts.map(esc).join(', ')}</div>` : ''}
+      ${a.manquants.length ? `<div>⚠️ Absent du CV : ${a.manquants.map(esc).join(', ')}</div>` : ''}
+      ${a.conseils.length ? `<ul>${a.conseils.map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}
+    </details>
+    <div class="actions">
+      <a class="btn primaire petit" href="${esc(o.url)}" target="_blank" rel="noopener">Postuler ↗</a>
+      <a class="btn petit" href="cv/${o.id}.html">CV adapté</a>
+      <select data-id="${o.id}">
+        ${[['a_traiter','À traiter'],['postule','Postulé ✓'],['ignore','Ignorer']].map(([v, l]) =>
+          `<option value="${v}" ${suiviDe(o) === v ? 'selected' : ''}>${l}</option>`).join('')}
+      </select>
+    </div>
+  </div>`;
+}
+
+function afficher() {
+  const l = filtrer();
+  $('liste').innerHTML = l.length ? l.map(carte).join('') : '<div class="vide">Aucune offre avec ces filtres.</div>';
+}
+
+$('liste').addEventListener('change', e => {
+  if (e.target.tagName !== 'SELECT') return;
+  suivi[e.target.dataset.id] = e.target.value;
+  ecrire('suivi', suivi);
+  stats(); afficher();
+});
+['f-texte', 'f-entreprise', 'f-compat', 'f-suivi'].forEach(i => $(i).addEventListener('input', afficher));
+
+// Coordonnées : saisies une fois, gardées dans ce navigateur.
+const moi = lire('cv_coordonnees', {lignes: [], photo: null});
+$('moi-lignes').value = (moi.lignes || []).join('\n');
+$('moi-photo').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const img = new Image();
+  img.onload = () => {  // réduit la photo pour qu'elle tienne dans le stockage du navigateur
+    const c = document.createElement('canvas'), k = Math.min(1, 480 / img.width);
+    c.width = img.width * k; c.height = img.height * k;
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    moi.photo = c.toDataURL('image/jpeg', 0.85);
+    $('moi-ok').textContent = 'Photo prête, clique sur Enregistrer.';
+  };
+  img.src = URL.createObjectURL(f);
+});
+$('moi-enregistrer').addEventListener('click', () => {
+  moi.lignes = $('moi-lignes').value.split('\n').map(s => s.trim()).filter(Boolean);
+  $('moi-ok').textContent = ecrire('cv_coordonnees', moi) ? 'Enregistré ✓' : "Impossible d'enregistrer (navigation privée ?)";
+});
+if (!(moi.lignes || []).length) $('bloc-moi').open = true;
+
+stats(); afficher();
+</script>
+</body>
+</html>

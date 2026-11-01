@@ -1,0 +1,273 @@
+{
+  "nom": "Maxence",
+  "nom_famille": "Le Bideau",
+  "titre": "Élève-ingénieur généraliste en 2<sup>e</sup> année – École Centrale de Lyon",
+  "logiciels": [
+    {
+      "nom": "MATLAB",
+      "detail": "",
+      "themes": [
+        "simulation",
+        "data"
+      ]
+    },
+    {
+      "nom": "CATT-Acoustic",
+      "detail": "simulation acoustique",
+      "themes": [
+        "simulation",
+        "acoustique"
+      ]
+    },
+    {
+      "nom": "SketchUp",
+      "detail": "modélisation 3D",
+      "themes": [
+        "simulation",
+        "batiment",
+        "mecanique"
+      ]
+    },
+    {
+      "nom": "VS Code",
+      "detail": "",
+      "themes": [
+        "data"
+      ]
+    },
+    {
+      "nom": "Suite Office",
+      "detail": "Word, Excel, PowerPoint",
+      "themes": [
+        "data",
+        "conseil",
+        "projet"
+      ]
+    },
+    {
+      "nom": "CapCut / Canva",
+      "detail": "",
+      "themes": [
+        "communication"
+      ]
+    }
+  ],
+  "langues": [
+    {
+      "nom": "Français",
+      "niveau": "langue maternelle"
+    },
+    {
+      "nom": "Anglais",
+      "niveau": "B2 – C1"
+    },
+    {
+      "nom": "Espagnol",
+      "niveau": "A2 – B1"
+    }
+  ],
+  "interets": [
+    "Course à pied / trail",
+    "Tennis",
+    "Voyage à vélo en itinérance",
+    "Bivouac"
+  ],
+  "sections": [
+    {
+      "id": "experiences",
+      "titre": "Expériences professionnelles",
+      "items": [
+        {
+          "titre": "Opérateur de production – Stage ouvrier",
+          "org": "Stellantis, usine de Poissy (78)",
+          "date": "Juil. 2026",
+          "themes": [
+            "industrie",
+            "terrain",
+            "qualite",
+            "equipe"
+          ],
+          "puces": [
+            {
+              "texte": "Montage de portières sur une ligne d'assemblage automobile, au rythme de la chaîne.",
+              "themes": [
+                "industrie",
+                "terrain"
+              ]
+            },
+            {
+              "texte": "Immersion dans une usine de production en grande série : flux, organisation des postes et contraintes terrain (cadence, ergonomie, qualité).",
+              "themes": [
+                "industrie",
+                "qualite",
+                "logistique",
+                "terrain"
+              ]
+            },
+            {
+              "texte": "Travail en équipe au contact des opérateurs et des chefs d'équipe.",
+              "themes": [
+                "equipe"
+              ]
+            }
+          ]
+        },
+        {
+          "titre": "Gestionnaire de stock – Stage",
+          "org": "Acanthe, Rueil-Malmaison",
+          "date": "Juil. – Août 2022",
+          "themes": [
+            "logistique"
+          ],
+          "puces": [
+            {
+              "texte": "Gestion des stocks de cartons et traitement des commandes en entrepôt.",
+              "themes": [
+                "logistique"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "projet",
+      "titre": "Projet d'études",
+      "items": [
+        {
+          "titre": "Correction acoustique d'un amphithéâtre en plein air",
+          "org": "École Centrale de Lyon – projet en équipe",
+          "date": "2025 – 2026",
+          "themes": [
+            "simulation",
+            "mesure",
+            "acoustique",
+            "batiment",
+            "data",
+            "projet",
+            "equipe",
+            "mecanique"
+          ],
+          "puces": [
+            {
+              "texte": "Identification d'un problème d'écho gênant pour le public d'un amphithéâtre extérieur.",
+              "themes": [
+                "acoustique",
+                "conseil"
+              ]
+            },
+            {
+              "texte": "Quantification du phénomène par mesures acoustiques sur site et par simulation numérique : modélisation 3D sous SketchUp, simulation sous CATT-Acoustic, traitement des données sous MATLAB.",
+              "themes": [
+                "mesure",
+                "simulation",
+                "data",
+                "terrain"
+              ]
+            },
+            {
+              "texte": "Conception et mise en place de solutions correctives fonctionnelles.",
+              "themes": [
+                "mecanique",
+                "batiment",
+                "projet"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "associatif",
+      "titre": "Engagement associatif",
+      "items": [
+        {
+          "titre": "Responsable site – Week-end d'intégration",
+          "org": "Association Centrale Lyon",
+          "date": "Déc. 2025 – en cours",
+          "themes": [
+            "projet",
+            "negociation",
+            "equipe",
+            "conseil"
+          ],
+          "puces": [
+            {
+              "texte": "Recherche du lieu, négociation et signature du contrat d'hébergement du WEI.",
+              "themes": [
+                "negociation"
+              ]
+            },
+            {
+              "texte": "Événement de plus de 750 participants ; coordination avec les pôles communication et logistique.",
+              "themes": [
+                "projet",
+                "equipe",
+                "logistique"
+              ]
+            }
+          ]
+        },
+        {
+          "titre": "Membre du Bureau des Sports",
+          "org": "Centrale Lyon",
+          "date": "Fév. 2026 – en cours",
+          "themes": [
+            "budget",
+            "projet",
+            "equipe"
+          ],
+          "puces": [
+            {
+              "texte": "Gestion administrative et financière de 18 clubs sportifs (10 à 50 membres chacun).",
+              "themes": [
+                "budget"
+              ]
+            },
+            {
+              "texte": "Organisation d'événements sportifs inter-associations.",
+              "themes": [
+                "projet"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "formation",
+      "titre": "Formation",
+      "fixe": true,
+      "items": [
+        {
+          "titre": "Diplôme d'ingénieur – Cursus généraliste",
+          "org": "École Centrale de Lyon, Écully",
+          "date": "Sept. 2025 – en cours",
+          "themes": [],
+          "puces": [
+            {
+              "texte": "Formation d'ingénieur généraliste : sciences de l'ingénieur, numérique, gestion de projet.",
+              "themes": [
+                "projet",
+                "mecanique",
+                "energie"
+              ]
+            }
+          ]
+        },
+        {
+          "titre": "Classe préparatoire TSI",
+          "org": "CPGE, Rueil-Malmaison",
+          "date": "Sept. 2023 – Juil. 2025",
+          "themes": [],
+          "puces": [
+            {
+              "texte": "Mathématiques, physique, sciences de l'ingénieur et philosophie ; préparation aux concours des grandes écoles d'ingénieurs.",
+              "themes": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

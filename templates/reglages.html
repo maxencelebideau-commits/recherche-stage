@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block titre %}Notifications{% endblock %}
+{% block contenu %}
+<h1>Notifications sur ton téléphone</h1>
+<p class="sous">Les notifications passent par <b>ntfy</b>, une app gratuite, sans compte. Toucher la notification ouvre directement l'offre.</p>
+{% if message %}<div class="message">{{ message }}</div>{% endif %}
+
+<div class="carte">
+  <h3 style="margin-top:0">Mise en place (2 minutes)</h3>
+  <ol class="etapes">
+    <li>Installe l'app <b>ntfy</b> sur ton téléphone (Play Store ou App Store).</li>
+    <li>Dans l'app, touche <b>+</b> (« S'abonner à un sujet ») et entre exactement ce sujet :<br>
+      <span class="sujet">{{ cfg.ntfy_sujet }}</span><br>
+      <span class="sous">Ce nom fait office de mot de passe : quiconque le connaît peut lire tes notifications, ne le partage pas.</span></li>
+    <li>Envoie une notification de test :
+      <form method="post" style="display:inline"><input type="hidden" name="action" value="test">
+        <button class="btn primaire petit">Envoyer un test</button></form></li>
+    <li>Pour la vérification automatique (toutes les heures, même app fermée), lance une fois
+      <code>installer_verification_auto.bat</code> dans le dossier de l'app. Ton PC doit être allumé
+      (pas en veille) pour que la vérification tourne ; sinon elle reprend à l'heure suivante.</li>
+  </ol>
+</div>
+
+<div class="carte">
+  <h3 style="margin-top:0">Quelles offres notifier ?</h3>
+  <form method="post">
+    <p><b>Compatibilité avec mai – juillet 2027</b><br>
+      {% for k, l in COMPAT_LABEL.items() %}
+        <label style="margin-right:14px"><input type="checkbox" name="notifier_compat" value="{{ k }}"
+          {{ 'checked' if k in cfg.notifier_compat }}> {{ l }}</label>
+      {% endfor %}</p>
+    <p><b>Lieu</b><br>
+      {% for k in ['ok', 'idf', 'inconnu'] %}
+        <label style="margin-right:14px"><input type="checkbox" name="notifier_lieux" value="{{ k }}"
+          {{ 'checked' if k in cfg.notifier_lieux }}> {{ LIEU_LABEL[k] }}</label>
+      {% endfor %}</p>
+    <p><b>Sujet ntfy</b><br><input name="ntfy_sujet" value="{{ cfg.ntfy_sujet }}" style="min-width:320px;padding:7px 10px;border:1px solid #e3e8ee;border-radius:7px"></p>
+    <button class="btn primaire">Enregistrer</button>
+  </form>
+</div>
+{% endblock %}

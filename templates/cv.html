@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CV {{ cv.nom }} {{ cv.nom_famille }}{% if offre %} – {{ offre.entreprise }}{% endif %}</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9edf1; font-family: "Lato", "Segoe UI", Calibri, sans-serif; color: #222b36; }
+  .barre { position: sticky; top: 0; background: #1f3550; color: #fff; padding: 10px 18px; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font: 14px "Segoe UI", sans-serif; z-index: 2; }
+  .barre button { background: #3a7bbf; color: #fff; border: 0; padding: 7px 14px; border-radius: 6px; font: inherit; cursor: pointer; }
+  .barre span { opacity: .8; }
+  @media (max-width: 600px) { .barre span { font-size: 12px; flex-basis: 100%; } }
+  .a4 { --fs: 9.6pt; width: 210mm; min-height: 297mm; margin: 20px auto; background: #fff; display: grid; grid-template-columns: 61mm 1fr; box-shadow: 0 2px 14px rgba(0,0,0,.12); }
+  .embed .a4 { margin: 0 auto; box-shadow: none; }
+  .embed .barre { display: none; }
+  .barre a { text-decoration: none; }
+  .cote { background: #3a7bbf; color: #fff; padding: 9mm 6.5mm; font-size: var(--fs); }
+  .cote img[hidden] { display: none; }
+  .cote img { width: 100%; aspect-ratio: 1.2; object-fit: cover; display: block; margin-bottom: 5mm; }
+  .cote h4 { font-size: .98em; letter-spacing: .4px; margin: 6mm 0 2.4mm; padding-bottom: 1.3mm; border-bottom: 1.6px solid #fff; text-transform: uppercase; }
+  .cote p { margin: 0 0 1.8mm; line-height: 1.35; }
+  .cote .faible { opacity: .82; font-weight: 400; }
+  .cote .fort { font-weight: 700; }
+  .cote .cible { background: rgba(255,255,255,.18); border-radius: 2px; padding: 0 2px; }
+  .principal { padding: 10mm 9mm 8mm 10mm; font-size: var(--fs); }
+  .nom { font-size: 25pt; margin: 0; font-weight: 300; color: #222b36; }
+  .nom b { font-weight: 700; }
+  .titre { font-style: italic; color: #6b7480; margin: 2mm 0 0; font-size: 1.08em; }
+  hr { border: 0; border-top: 1.6px solid #3a7bbf; margin: 5mm 0 4mm; }
+  .accroche { border-left: 3px solid #3a7bbf; background: #f1f6fc; padding: 2.4mm 3.2mm; margin: 0 0 3.5mm; line-height: 1.42; }
+  .competences { display: flex; flex-wrap: wrap; gap: 1.6mm; margin: 0 0 1mm; }
+  .competences span { border: 1px solid #3a7bbf; color: #2c5d91; border-radius: 10px; padding: .5mm 2.4mm; font-size: .9em; font-weight: 600; }
+  h2 { color: #3a7bbf; font-size: 1.04em; letter-spacing: .4px; text-transform: uppercase; margin: 5mm 0 2.6mm; padding-bottom: 1.2mm; border-bottom: 1.2px solid #3a7bbf; }
+  .item { margin-bottom: 3.2mm; break-inside: avoid; }
+  .item h3 { font-size: 1.08em; margin: 0; }
+  .org { color: #3a7bbf; font-weight: 700; }
+  .date { color: #7a838e; font-style: italic; margin-left: 1.5mm; }
+  ul { margin: 1mm 0 0; padding-left: 0; list-style: none; }
+  li { padding-left: 3.6mm; text-indent: -3.6mm; line-height: 1.38; margin-bottom: .6mm; }
+  li::before { content: "– "; }
+  li strong { font-weight: 700; color: #16212d; }
+  @media print {
+    body { background: #fff; }
+    .barre { display: none; }
+    .a4 { margin: 0; box-shadow: none; }
+    .cote { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .accroche { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="barre">
+  {% if site %}<a href="../index.html" style="color:#fff">← Offres</a>{% endif %}
+  <button onclick="window.print()">Enregistrer en PDF</button>
+  <span>{% if offre %}Adapté pour : {{ offre.entreprise }} – {{ offre.titre }}{% else %}CV d'origine{% endif %}
+   · {% if site %}sur iPhone : Partager → Imprimer, puis écarte deux doigts sur l'aperçu pour obtenir le PDF{% else %}choisis « Enregistrer au format PDF » et coche « Graphiques d'arrière-plan »{% endif %}.</span>
+</div>
+<div class="a4">
+  <aside class="cote">
+    {% if photo_url %}<img src="{{ photo_url }}" alt="Photo">{% elif site %}<img id="photo" alt="Photo" hidden>{% endif %}
+    <h4>Contact</h4>
+    <div id="contact">{% for c in cv.contact %}<p>{{ c|safe }}</p>{% endfor %}</div>
+    <h4>Logiciels</h4>
+    {% for l in cv.logiciels %}
+      <p><span class="fort {{ 'cible' if l.fort }}">{{ l.nom }}</span>{% if l.detail %} <span class="faible">{{ l.detail }}</span>{% endif %}</p>
+    {% endfor %}
+    <h4>Langues</h4>
+    {% for l in cv.langues %}<p><span class="fort">{{ l.nom }}</span> <span class="faible">{{ l.niveau }}</span></p>{% endfor %}
+    <h4>Intérêts</h4>
+    {% for i in cv.interets %}<p class="fort">{{ i }}</p>{% endfor %}
+  </aside>
+  <section class="principal">
+    <h1 class="nom">{{ cv.nom }} <b>{{ cv.nom_famille }}</b></h1>
+    <p class="titre">{{ cv.titre|safe }}{% if offre %} · Stage 3 mois, mai – juillet 2027{% endif %}</p>
+    <hr>
+    {% if cv.accroche %}<p class="accroche">{{ cv.accroche|safe }}</p>{% endif %}
+    {% if cv.competences %}<div class="competences">{% for c in cv.competences %}<span>{{ c }}</span>{% endfor %}</div>{% endif %}
+    {% for s in cv.sections %}
+      <h2>{{ s.titre }}</h2>
+      {% for it in s["items"] %}
+        <div class="item">
+          <h3>{{ it.titre }}</h3>
+          <div><span class="org">{{ it.org }}</span><span class="date">{{ it.date }}</span></div>
+          <ul>{% for p in it.puces %}<li>{{ p.html|safe }}</li>{% endfor %}</ul>
+        </div>
+      {% endfor %}
+    {% endfor %}
+  </section>
+</div>
+<script>
+  {% if site %}
+  // Site en ligne : coordonnées et photo enregistrées uniquement sur cet appareil (jamais publiées).
+  try {
+    const moi = JSON.parse(localStorage.getItem('cv_coordonnees') || '{}');
+    if (moi.lignes && moi.lignes.length) {
+      const zone = document.getElementById('contact');
+      moi.lignes.forEach(l => { const p = document.createElement('p'); p.textContent = l; zone.appendChild(p); });
+    }
+    if (moi.photo) { const img = document.getElementById('photo'); img.src = moi.photo; img.hidden = false; }
+  } catch (e) {}
+  {% endif %}
+  if (new URLSearchParams(location.search).has('embed')) document.body.classList.add('embed');
+
+  // Réduit la taille du texte jusqu'à ce que le CV tienne sur une page A4 (297 mm = 1123 px).
+  function tenirSurUnePage() {
+    const a4 = document.querySelector('.a4'), contenu = document.querySelector('.principal');
+    const zoom = document.body.style.zoom;
+    document.body.style.zoom = 1;  // mesure sans zoom
+    let fs = 9.6;
+    a4.style.setProperty('--fs', fs + 'pt');
+    while (contenu.scrollHeight > 1123 && fs > 7.6) {
+      fs -= 0.2;
+      a4.style.setProperty('--fs', fs.toFixed(1) + 'pt');
+    }
+    document.body.style.zoom = zoom;
+  }
+  const img = document.querySelector('.cote img');
+  if (img && !img.complete) img.addEventListener('load', tenirSurUnePage);
+  tenirSurUnePage();
+
+  // Ajuste l'A4 (210 mm = 794 px) à la largeur de l'écran ou du panneau ; pas de zoom à l'impression.
+  // Sur téléphone, innerWidth s'élargit au contenu : on se fie à la largeur de l'écran.
+  const ajuster = () => { document.body.style.zoom = Math.min(1, (Math.min(innerWidth, screen.width) - 4) / 794); };
+  addEventListener('resize', ajuster);
+  addEventListener('beforeprint', () => { document.body.style.zoom = 1; });
+  addEventListener('afterprint', ajuster);
+  ajuster();
+</script>
+</body>
+</html>

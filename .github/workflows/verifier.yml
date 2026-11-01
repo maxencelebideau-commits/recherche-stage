@@ -1,0 +1,58 @@
+name: Vérifier les offres
+
+on:
+  schedule:
+    - cron: "7 * * * *"  # toutes les heures (GitHub peut décaler de quelques minutes)
+  workflow_dispatch:     # bouton « Run workflow » pour lancer à la main
+  push:
+    branches: [main]
+    paths: ["data/entreprises.json", "data/cv.json", "templates/**", "*.py"]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: verification
+  cancel-in-progress: false
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    env:
+      TZ: Europe/Paris
+      NTFY_SUJET: ${{ secrets.NTFY_SUJET }}
+      SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Vérifier les offres et envoyer les notifications
+        run: python verifier.py
+
+      - name: Enregistrer les offres dans le dépôt
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/offres.json data/etat.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Mise à jour des offres"
+            git push
+          fi
+
+      - name: Générer le site
+        run: python generer_site.py
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploiement
+        uses: actions/deploy-pages@v4

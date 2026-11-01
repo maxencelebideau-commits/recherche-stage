@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block titre %}Entreprises suivies{% endblock %}
+{% block contenu %}
+<h1>Entreprises suivies</h1>
+<p class="sous">L'app surveille le site carrières de chaque entreprise et ne garde que les stages à Paris / 92 dans tes domaines.</p>
+
+<div class="carte">
+  <h3 style="margin-top:0">Ajouter une entreprise</h3>
+  <form class="ajout" method="post" action="{{ url_for('entreprise_ajouter') }}">
+    <input name="nom" placeholder="Nom (ex. RTE)" required>
+    <input name="url" placeholder="URL de la page des offres (ex. https://careers.smartrecruiters.com/…)" required>
+    <input name="secteur" placeholder="Secteur (ex. Énergie – réseau)">
+    <input name="lieu" placeholder="Siège (ex. La Défense)">
+    <textarea name="pourquoi" placeholder="Pourquoi cette entreprise / type de stage visé (optionnel)"></textarea>
+    <div class="bas">
+      <span>Le type de site est détecté automatiquement (SmartRecruiters, Workday, Teamtailor, Greenhouse, Lever, sinon lecture de la page).
+        Colle de préférence l'adresse de la <b>liste des offres</b>.</span>
+      <button class="btn primaire">Ajouter et vérifier</button>
+    </div>
+  </form>
+</div>
+
+<table class="ents">
+  <thead><tr><th>Entreprise</th><th>Ce qu'on y vise</th><th>Source</th><th>Dernière vérification</th><th></th></tr></thead>
+  <tbody>
+  {% for e in entreprises %}
+    {% set st = etat.get(e.id, {}) %}
+    <tr class="{{ '' if e.actif is not defined or e.actif else 'inactif' }}">
+      <td><b>{{ e.nom }}</b><br><span class="sous">{{ e.secteur }}<br>📍 {{ e.lieu }}</span></td>
+      <td class="pourquoi">{{ e.pourquoi }}</td>
+      <td><a href="{{ e.url_carrieres }}" target="_blank" rel="noopener">{{ e.source.type }}</a></td>
+      <td>
+        {% if st.derniere %}{{ st.derniere.replace('T', ' ')[:16] }}<br>{% endif %}
+        {% if st.erreur %}<span class="erreur">⚠ {{ st.erreur[:160] }}</span>
+        {% elif st.derniere %}<b>{{ st.stages }}</b> stage(s) retenu(s) / {{ st.trouvees }} offres lues
+        {% else %}<span class="sous">jamais vérifiée</span>{% endif %}
+      </td>
+      <td style="white-space:nowrap">
+        <form method="post" action="{{ url_for('entreprise_basculer', eid=e.id) }}" style="display:inline">
+          <button class="btn petit">{{ 'Mettre en pause' if e.get('actif', True) else 'Réactiver' }}</button></form>
+        <form method="post" action="{{ url_for('entreprise_supprimer', eid=e.id) }}" style="display:inline"
+              onsubmit="return confirm('Supprimer {{ e.nom }} et ses offres ?')">
+          <button class="btn petit danger">Supprimer</button></form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

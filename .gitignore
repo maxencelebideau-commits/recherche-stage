@@ -1,0 +1,12 @@
+# Données privées : jamais publiées
+data/config.json
+data/contact_prive.json
+data/CV_original.pdf
+static/photo.*
+
+# Fichiers générés
+data/verification.log
+data/*.tmp
+site/
+__pycache__/
+.claude/
