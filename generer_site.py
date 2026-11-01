@@ -25,6 +25,8 @@ def generer():
     ents = {e["id"]: e for e in stockage.entreprises()}
     offres = [o for o in stockage.offres().values()
               if o["en_ligne"] and verifier.a_afficher(o) and o["entreprise_id"] in ents]
+    for o in offres:  # profite des règles de dates à jour, même pour les offres déjà enregistrées
+        o["compat"] = analyse.compatibilite(o["titre"], o.get("texte", ""))
     ordre = {"ok": 0, "proche": 1, "inconnu": 2, "ko": 3}
     offres.sort(key=lambda o: o["trouve_le"], reverse=True)
     offres.sort(key=lambda o: ordre[o["compat"]["statut"]])

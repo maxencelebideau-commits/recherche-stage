@@ -50,7 +50,8 @@
       <option value="ok">Compatibles seulement</option>
       <option value="toutes">Toutes (y compris 6 mois)</option>
     </select>
-    <select id="f-suivi" style="grid-column: 1 / -1">
+    <select id="f-mois"><option value="">Tous les mois de début</option></select>
+    <select id="f-suivi">
       <option value="a_traiter">À traiter</option>
       <option value="postule">Postulé</option>
       <option value="ignore">Ignorées</option>
@@ -102,9 +103,20 @@ const ilYa = iso => {
 };
 const estNouvelle = o => !o.initial && (Date.now() - new Date(o.trouve_le)) < 3 * 864e5;
 
+const MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+const moisDe = o => o.compat.debut_mois ? String(o.compat.debut_mois) : 'np';
+(() => {  // propose seulement les mois présents, avec le nombre d'offres
+  const n = {};
+  OFFRES.forEach(o => { n[moisDe(o)] = (n[moisDe(o)] || 0) + 1; });
+  const cles = Object.keys(n).filter(k => k !== 'np').sort((a, b) => a - b);
+  if (n.np) cles.push('np');
+  $('f-mois').insertAdjacentHTML('beforeend', cles.map(k =>
+    `<option value="${k}">Début : ${k === 'np' ? 'non précisé' : MOIS[k - 1]} (${n[k]})</option>`).join(''));
+})();
+
 function filtrer() {
-  const t = $('f-texte').value.toLowerCase(), e = $('f-entreprise').value, c = $('f-compat').value, s = $('f-suivi').value;
-  return OFFRES.filter(o => (!e || o.entreprise_id === e) && (!s || suiviDe(o) === s) &&
+  const t = $('f-texte').value.toLowerCase(), e = $('f-entreprise').value, c = $('f-compat').value, s = $('f-suivi').value, mo = $('f-mois').value;
+  return OFFRES.filter(o => (!e || o.entreprise_id === e) && (!mo || moisDe(o) === mo) && (!s || suiviDe(o) === s) &&
     (c === 'toutes' || (c === 'ok' ? o.compat.statut === 'ok' : o.compat.statut !== 'ko')) &&
     (!t || (o.titre + ' ' + o.entreprise + ' ' + o.but + ' ' + o.missions.join(' ')).toLowerCase().includes(t)));
 }
@@ -160,7 +172,7 @@ $('liste').addEventListener('change', e => {
   ecrire('suivi', suivi);
   stats(); afficher();
 });
-['f-texte', 'f-entreprise', 'f-compat', 'f-suivi'].forEach(i => $(i).addEventListener('input', afficher));
+['f-texte', 'f-entreprise', 'f-compat', 'f-mois', 'f-suivi'].forEach(i => $(i).addEventListener('input', afficher));
 
 // Coordonnées : saisies une fois, gardées dans ce navigateur.
 const moi = lire('cv_coordonnees', {lignes: [], photo: null});

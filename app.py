@@ -50,6 +50,8 @@ def accueil():
     ents = {e["id"]: e for e in stockage.entreprises()}
     liste = [o for o in stockage.offres().values()
              if verifier.a_afficher(o) and o["entreprise_id"] in ents]
+    for o in liste:  # profite des règles de dates à jour, même pour les offres déjà enregistrées
+        o["compat"] = analyse.compatibilite(o["titre"], o.get("texte", ""))
     ordre = {"ok": 0, "proche": 1, "inconnu": 2, "ko": 3}
     liste.sort(key=lambda o: o["trouve_le"], reverse=True)  # plus récentes d'abord, à compatibilité égale
     liste.sort(key=lambda o: (not o["en_ligne"], ordre[o["compat"]["statut"]]))

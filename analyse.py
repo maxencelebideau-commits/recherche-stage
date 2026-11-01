@@ -103,11 +103,14 @@ def durees(t):
 def debut(t):
     """Mois de début mentionné (1-12) et année éventuelle."""
     noms = "|".join(MOIS + MOIS_EN)
-    m = re.search(r"(?:debut|demarrage|a partir d[eu]|des|start(?:ing)?(?: date)?|disponible)\s*:?\s*(?:le |en |in |of )?"
+    m = re.search(r"(?:debut|demarrage|a partir d(?:e |u |')|des|start(?:ing)?(?: date)?|disponible)\s*:?\s*(?:le |en |in |of )?"
                   r"(?:\d{1,2}(?:er)? )?(" + noms + r")\s*(20\d\d)?", t)
     if not m:
         m = re.search(r"\b(" + noms + r")\s+(2027)\b", t)
     if not m:
+        s = re.search(r"\b(premier|1er|second|deuxieme|2e|2eme)\s+semestre\s+(20\d\d)", t)
+        if s:
+            return (1 if s.group(1) in ("premier", "1er") else 7), int(s.group(2))
         return None, None
     nom = m.group(1)
     mois = (MOIS.index(nom) if nom in MOIS else MOIS_EN.index(nom)) + 1
@@ -147,7 +150,7 @@ def compatibilite(titre, texte):
             statut = "proche"
         if annee and annee < 2027 and statut in ("ok", "proche", "inconnu"):
             statut = "ko"
-    return {"statut": statut, "detail": " · ".join(notes)}
+    return {"statut": statut, "detail": " · ".join(notes), "debut_mois": mois}
 
 
 COMPAT_LABEL = {"ok": "Compatible mai–juil.", "proche": "À vérifier (durée/date proche)",
