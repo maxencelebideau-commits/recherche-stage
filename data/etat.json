@@ -1,6 +1,6 @@
 {
   "wavestone": {
-    "derniere": "2026-11-01T21:39:45",
+    "derniere": "2026-11-01T22:39:57",
     "initialise": true,
     "erreur": null,
     "trouvees": 191,
@@ -10,7 +10,7 @@
     "premiere_fois": false
   },
   "sia-partners": {
-    "derniere": "2026-11-01T21:39:45",
+    "derniere": "2026-11-01T22:39:57",
     "initialise": true,
     "erreur": null,
     "trouvees": 20,
@@ -20,7 +20,7 @@
     "premiere_fois": false
   },
   "bearingpoint": {
-    "derniere": "2026-11-01T21:39:45",
+    "derniere": "2026-11-01T22:39:57",
     "initialise": true,
     "erreur": null,
     "trouvees": 100,
@@ -30,7 +30,7 @@
     "premiere_fois": false
   },
   "accenture": {
-    "derniere": "2026-11-01T21:39:45",
+    "derniere": "2026-11-01T22:39:57",
     "initialise": true,
     "erreur": null,
     "trouvees": 77,
@@ -40,7 +40,7 @@
     "premiere_fois": false
   },
   "colombus-consulting": {
-    "derniere": "2026-11-01T21:39:45",
+    "derniere": "2026-11-01T22:39:57",
     "initialise": true,
     "erreur": null,
     "trouvees": 14,
@@ -50,7 +50,7 @@
     "premiere_fois": false
   },
   "artelys": {
-    "derniere": "2026-11-01T21:39:45",
+    "derniere": "2026-11-01T22:39:57",
     "initialise": true,
     "erreur": null,
     "trouvees": 6,
@@ -60,7 +60,7 @@
     "premiere_fois": false
   },
   "assystem": {
-    "derniere": "2026-11-01T21:39:45",
+    "derniere": "2026-11-01T22:39:57",
     "initialise": true,
     "erreur": null,
     "trouvees": 253,
@@ -70,7 +70,7 @@
     "premiere_fois": false
   },
   "alten": {
-    "derniere": "2026-11-01T21:39:45",
+    "derniere": "2026-11-01T22:39:57",
     "initialise": true,
     "erreur": null,
     "trouvees": 211,
@@ -80,7 +80,7 @@
     "premiere_fois": false
   },
   "artelia": {
-    "derniere": "2026-11-01T21:39:45",
+    "derniere": "2026-11-01T22:39:57",
     "initialise": true,
     "erreur": null,
     "trouvees": 150,
@@ -90,7 +90,7 @@
     "premiere_fois": false
   },
   "setec": {
-    "derniere": "2026-11-01T21:39:45",
+    "derniere": "2026-11-01T22:39:57",
     "initialise": true,
     "erreur": null,
     "trouvees": 7,
@@ -100,12 +100,12 @@
     "premiere_fois": false
   },
   "totalenergies": {
-    "derniere": "2026-11-01T21:39:45",
+    "derniere": "2026-11-01T22:39:57",
     "initialise": true,
     "erreur": null,
-    "trouvees": 16,
-    "stages": 14,
-    "nouvelles": 1,
+    "trouvees": 17,
+    "stages": 17,
+    "nouvelles": 0,
     "notifiees": 0,
     "premiere_fois": false
   }
