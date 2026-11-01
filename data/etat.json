@@ -1,112 +1,112 @@
 {
   "wavestone": {
-    "derniere": "2026-11-01T13:04:19",
+    "derniere": "2026-11-01T16:35:24",
     "initialise": true,
     "erreur": null,
     "trouvees": 191,
-    "stages": 58,
-    "nouvelles": 58,
+    "stages": 105,
+    "nouvelles": 47,
     "notifiees": 0,
-    "premiere_fois": true
+    "premiere_fois": false
   },
   "sia-partners": {
-    "derniere": "2026-11-01T13:04:19",
+    "derniere": "2026-11-01T16:35:24",
     "initialise": true,
     "erreur": null,
     "trouvees": 20,
     "stages": 17,
-    "nouvelles": 17,
+    "nouvelles": 0,
     "notifiees": 0,
-    "premiere_fois": true
+    "premiere_fois": false
   },
   "bearingpoint": {
-    "derniere": "2026-11-01T13:04:19",
+    "derniere": "2026-11-01T16:35:24",
     "initialise": true,
     "erreur": null,
     "trouvees": 100,
     "stages": 19,
-    "nouvelles": 19,
+    "nouvelles": 0,
     "notifiees": 0,
-    "premiere_fois": true
+    "premiere_fois": false
   },
   "accenture": {
-    "derniere": "2026-11-01T13:04:19",
+    "derniere": "2026-11-01T16:35:24",
     "initialise": true,
     "erreur": null,
     "trouvees": 77,
     "stages": 11,
-    "nouvelles": 11,
+    "nouvelles": 0,
     "notifiees": 0,
-    "premiere_fois": true
+    "premiere_fois": false
   },
   "colombus-consulting": {
-    "derniere": "2026-11-01T13:04:19",
+    "derniere": "2026-11-01T16:35:24",
     "initialise": true,
     "erreur": null,
     "trouvees": 14,
     "stages": 4,
-    "nouvelles": 4,
+    "nouvelles": 0,
     "notifiees": 0,
-    "premiere_fois": true
+    "premiere_fois": false
   },
   "artelys": {
-    "derniere": "2026-11-01T13:04:19",
+    "derniere": "2026-11-01T16:35:24",
     "initialise": true,
     "erreur": null,
     "trouvees": 6,
     "stages": 6,
-    "nouvelles": 6,
+    "nouvelles": 0,
     "notifiees": 0,
-    "premiere_fois": true
+    "premiere_fois": false
   },
   "assystem": {
-    "derniere": "2026-11-01T13:04:19",
+    "derniere": "2026-11-01T16:35:24",
     "initialise": true,
     "erreur": null,
     "trouvees": 253,
     "stages": 13,
-    "nouvelles": 13,
+    "nouvelles": 0,
     "notifiees": 0,
-    "premiere_fois": true
+    "premiere_fois": false
   },
   "alten": {
-    "derniere": "2026-11-01T13:04:19",
+    "derniere": "2026-11-01T16:35:24",
     "initialise": true,
     "erreur": null,
     "trouvees": 211,
     "stages": 15,
-    "nouvelles": 15,
+    "nouvelles": 0,
     "notifiees": 0,
-    "premiere_fois": true
+    "premiere_fois": false
   },
   "artelia": {
-    "derniere": "2026-11-01T13:04:19",
+    "derniere": "2026-11-01T16:35:24",
     "initialise": true,
     "erreur": null,
     "trouvees": 150,
     "stages": 1,
-    "nouvelles": 1,
+    "nouvelles": 0,
     "notifiees": 0,
-    "premiere_fois": true
+    "premiere_fois": false
   },
   "setec": {
-    "derniere": "2026-11-01T13:04:19",
+    "derniere": "2026-11-01T16:35:24",
     "initialise": true,
     "erreur": null,
     "trouvees": 7,
     "stages": 7,
-    "nouvelles": 7,
+    "nouvelles": 0,
     "notifiees": 0,
-    "premiere_fois": true
+    "premiere_fois": false
   },
   "totalenergies": {
-    "derniere": "2026-11-01T13:04:19",
+    "derniere": "2026-11-01T16:35:24",
     "initialise": true,
     "erreur": null,
-    "trouvees": 20,
-    "stages": 15,
-    "nouvelles": 15,
+    "trouvees": 19,
+    "stages": 16,
+    "nouvelles": 9,
     "notifiees": 0,
-    "premiere_fois": true
+    "premiere_fois": false
   }
 }
