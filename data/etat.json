@@ -1,16 +1,16 @@
 {
   "wavestone": {
-    "derniere": "2026-11-02T14:08:36",
+    "derniere": "2026-11-02T16:00:44",
     "initialise": true,
     "erreur": null,
     "trouvees": 191,
     "stages": 105,
-    "nouvelles": 1,
+    "nouvelles": 0,
     "notifiees": 0,
     "premiere_fois": false
   },
   "sia-partners": {
-    "derniere": "2026-11-02T14:08:36",
+    "derniere": "2026-11-02T16:00:44",
     "initialise": true,
     "erreur": null,
     "trouvees": 20,
@@ -20,7 +20,7 @@
     "premiere_fois": false
   },
   "bearingpoint": {
-    "derniere": "2026-11-02T14:08:36",
+    "derniere": "2026-11-02T16:00:44",
     "initialise": true,
     "erreur": null,
     "trouvees": 100,
@@ -30,7 +30,7 @@
     "premiere_fois": false
   },
   "accenture": {
-    "derniere": "2026-11-02T14:08:36",
+    "derniere": "2026-11-02T16:00:44",
     "initialise": true,
     "erreur": null,
     "trouvees": 74,
@@ -40,7 +40,7 @@
     "premiere_fois": false
   },
   "colombus-consulting": {
-    "derniere": "2026-11-02T14:08:36",
+    "derniere": "2026-11-02T16:00:44",
     "initialise": true,
     "erreur": null,
     "trouvees": 14,
@@ -50,7 +50,7 @@
     "premiere_fois": false
   },
   "artelys": {
-    "derniere": "2026-11-02T14:08:36",
+    "derniere": "2026-11-02T16:00:44",
     "initialise": true,
     "erreur": null,
     "trouvees": 6,
@@ -60,52 +60,52 @@
     "premiere_fois": false
   },
   "assystem": {
-    "derniere": "2026-11-02T14:08:36",
+    "derniere": "2026-11-02T16:00:44",
     "initialise": true,
     "erreur": null,
-    "trouvees": 248,
+    "trouvees": 247,
     "stages": 13,
     "nouvelles": 0,
     "notifiees": 0,
     "premiere_fois": false
   },
   "alten": {
-    "derniere": "2026-11-02T14:08:36",
+    "derniere": "2026-11-02T16:00:44",
     "initialise": true,
     "erreur": null,
-    "trouvees": 210,
+    "trouvees": 211,
     "stages": 15,
     "nouvelles": 0,
     "notifiees": 0,
     "premiere_fois": false
   },
   "artelia": {
-    "derniere": "2026-11-02T14:08:36",
+    "derniere": "2026-11-02T16:00:44",
     "initialise": true,
     "erreur": null,
-    "trouvees": 152,
+    "trouvees": 153,
     "stages": 1,
     "nouvelles": 0,
     "notifiees": 0,
     "premiere_fois": false
   },
   "setec": {
-    "derniere": "2026-11-02T14:08:36",
+    "derniere": "2026-11-02T16:00:44",
     "initialise": true,
     "erreur": null,
-    "trouvees": 7,
-    "stages": 7,
-    "nouvelles": 1,
-    "notifiees": 1,
+    "trouvees": 8,
+    "stages": 8,
+    "nouvelles": 5,
+    "notifiees": 4,
     "premiere_fois": false
   },
   "totalenergies": {
-    "derniere": "2026-11-02T14:08:36",
+    "derniere": "2026-11-02T16:00:44",
     "initialise": true,
     "erreur": null,
     "trouvees": 17,
-    "stages": 16,
-    "nouvelles": 2,
+    "stages": 13,
+    "nouvelles": 0,
     "notifiees": 0,
     "premiere_fois": false
   }
