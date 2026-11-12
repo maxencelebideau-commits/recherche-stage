@@ -145,14 +145,15 @@ function carte(o) {
     </div>
     ${o.but ? `<p class="but"><b>But :</b> ${esc(o.but)}</p>` : ''}
     ${miss ? `<ul>${miss}</ul>` : ''}
-    <details class="adq"><summary>Adéquation de ton CV : ${a.adequation} %</summary>
-      ${a.couverts.length ? `<div>✅ Mis en avant : ${a.couverts.map(esc).join(', ')}</div>` : ''}
-      ${a.manquants.length ? `<div>⚠️ Absent du CV : ${a.manquants.map(esc).join(', ')}</div>` : ''}
+    <details class="adq"><summary>Compatibilité avec ton profil : ${a.profil.score} % – ${esc(a.profil.verdict)}</summary>
+      ${a.profil.forts.map(f => `<div>✅ ${esc(f)}</div>`).join('')}
+      ${a.profil.attention.map(f => `<div>⚠️ ${esc(f)}</div>`).join('')}
       ${a.conseils.length ? `<ul>${a.conseils.map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}
     </details>
     <div class="actions">
       <a class="btn primaire petit" href="${esc(o.url)}" target="_blank" rel="noopener">Postuler ↗</a>
       <a class="btn petit" href="cv/${o.id}.html">CV adapté</a>
+      <a class="btn petit" href="lettre/${o.id}.html">Lettre</a>
       <select data-id="${o.id}">
         ${[['a_traiter','À traiter'],['postule','Postulé ✓'],['ignore','Ignorer']].map(([v, l]) =>
           `<option value="${v}" ${suiviDe(o) === v ? 'selected' : ''}>${l}</option>`).join('')}

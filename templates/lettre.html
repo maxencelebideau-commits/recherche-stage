@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lettre {{ nom }} – {{ offre.entreprise }}</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9edf1; font-family: "Lato", "Segoe UI", Calibri, sans-serif; color: #222b36; }
+  .barre { position: sticky; top: 0; background: #1f3550; color: #fff; padding: 10px 18px; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font: 14px "Segoe UI", sans-serif; z-index: 2; }
+  .barre button { background: #3a7bbf; color: #fff; border: 0; padding: 7px 14px; border-radius: 6px; font: inherit; cursor: pointer; }
+  .barre a { color: #fff; text-decoration: none; }
+  .barre span { opacity: .8; }
+  .compat { max-width: 210mm; margin: 16px auto 0; background: #fff; border-radius: 8px; padding: 12px 16px; font: 14px/1.45 "Segoe UI", sans-serif; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+  .compat b.score { font-size: 17px; }
+  .compat .jauge { height: 7px; background: #e3e8ee; border-radius: 4px; margin: 6px 0 8px; overflow: hidden; }
+  .compat .jauge i { display: block; height: 100%; background: #3a7bbf; }
+  .compat ul { margin: 4px 0 0; padding-left: 18px; }
+  .a4 { width: 210mm; min-height: 297mm; margin: 16px auto 20px; background: #fff; padding: 20mm 22mm; box-shadow: 0 2px 14px rgba(0,0,0,.12); font-size: 11pt; line-height: 1.5; }
+  .exp { margin-bottom: 10mm; }
+  .exp b { font-size: 13pt; }
+  .exp p, .dest p { margin: 0; }
+  .dest { text-align: right; margin-bottom: 8mm; }
+  .objet { font-weight: 700; margin: 0 0 7mm; }
+  .corps p { margin: 0 0 4mm; text-align: justify; }
+  .corps:focus { outline: 2px dashed #9cc0e6; outline-offset: 6px; }
+  .signature { margin-top: 8mm; }
+  @media print {
+    body { background: #fff; }
+    .barre, .compat { display: none; }
+    .a4 { margin: 0; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="barre">
+  {% if site %}<a href="../index.html">← Offres</a> <a href="../cv/{{ offre.id }}.html">CV adapté</a>
+  {% else %}<a href="/cv/{{ offre.id }}">CV adapté</a>{% endif %}
+  <button onclick="window.print()">Enregistrer en PDF</button>
+  <button onclick="copier()" id="b-copier">Copier le texte</button>
+  <button onclick="reinitialiser()" title="Annule tes modifications">Réinitialiser</button>
+  <span>Clique dans la lettre pour la modifier avant de l'enregistrer.</span>
+</div>
+
+{% set p = infos.profil %}
+<div class="compat">
+  <b class="score">Compatibilité avec ton profil : {{ p.score }} % – {{ p.verdict }}</b>
+  <div class="jauge"><i style="width:{{ p.score }}%"></i></div>
+  <ul>
+    {% for f in p.forts %}<li>✅ {{ f }}</li>{% endfor %}
+    {% for a in p.attention %}<li>⚠️ {{ a }}</li>{% endfor %}
+  </ul>
+</div>
+
+<div class="a4">
+  <div class="exp">
+    <b>{{ nom }}</b>
+    <div id="contact">{% for c in contact %}<p>{{ c|safe }}</p>{% endfor %}</div>
+  </div>
+  <div class="dest">
+    <p><b>{{ offre.entreprise }}</b></p>
+    <p>Service recrutement</p>
+    <p style="margin-top:4mm">{{ lettre.date }}</p>
+  </div>
+  <p class="objet">Objet : {{ lettre.objet }}</p>
+  <div class="corps" id="corps" contenteditable="true" spellcheck="true">
+    <p>Madame, Monsieur,</p>
+    {% for para in lettre.paragraphes %}<p>{{ para }}</p>{% endfor %}
+    <p class="signature">{{ nom }}</p>
+  </div>
+</div>
+
+<script>
+  {% if site %}
+  // Site en ligne : coordonnées enregistrées uniquement sur cet appareil (jamais publiées).
+  try {
+    const moi = JSON.parse(localStorage.getItem('cv_coordonnees') || '{}');
+    const zone = document.getElementById('contact');
+    (moi.lignes || []).forEach(l => { const p = document.createElement('p'); p.textContent = l; zone.appendChild(p); });
+  } catch (e) {}
+  {% endif %}
+  // Les modifications sont gardées sur cet appareil, pour cette offre.
+  const cle = 'lettre_{{ offre.id }}', corps = document.getElementById('corps');
+  try { const s = localStorage.getItem(cle); if (s) corps.innerHTML = s; } catch (e) {}
+  corps.addEventListener('input', () => { try { localStorage.setItem(cle, corps.innerHTML); } catch (e) {} });
+
+  function reinitialiser() {
+    try { localStorage.removeItem(cle); } catch (e) {}
+    location.reload();
+  }
+
+  async function copier() {
+    const texte = [...corps.querySelectorAll('p')].map(p => p.innerText.trim()).filter(Boolean).join('\n\n');
+    try { await navigator.clipboard.writeText(texte); } catch (e) {
+      const r = document.createRange(); r.selectNodeContents(corps);
+      getSelection().removeAllRanges(); getSelection().addRange(r); document.execCommand('copy');
+    }
+    const b = document.getElementById('b-copier'); b.textContent = 'Copié ✓';
+    setTimeout(() => { b.textContent = 'Copier le texte'; }, 1500);
+  }
+
+  // Ajuste l'A4 (210 mm = 794 px) à la largeur de l'écran ; pas de zoom à l'impression.
+  const a4 = document.querySelector('.a4');
+  const ajuster = () => { a4.style.zoom = Math.min(1, (Math.min(innerWidth, screen.width) - 8) / 794); };
+  addEventListener('resize', ajuster);
+  addEventListener('beforeprint', () => { a4.style.zoom = 1; });
+  addEventListener('afterprint', ajuster);
+  ajuster();
+</script>
+</body>
+</html>

@@ -8,7 +8,8 @@ from bs4 import BeautifulSoup
 
 def norm(s):
     """Minuscules, sans accents, espaces normalisés."""
-    s = unicodedata.normalize("NFKD", s or "").encode("ascii", "ignore").decode()
+    s = (s or "").replace("’", "'").replace("‘", "'")  # apostrophe typographique : « l’UX » ≠ « lux »
+    s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()
     return re.sub(r"\s+", " ", s.lower()).strip()
 
 

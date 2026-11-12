@@ -158,7 +158,61 @@ def adapter(offre=None, public=False):
         "manquants": [analyse.THEMES[t][0] for t in manquants],
         "conseils": _conseils(manquants, offre),
     }
+    infos["profil"] = profil(offre, infos)
     return cv, infos
+
+
+# Logiciels souvent demandés, et ceux réellement présents dans le CV.
+OUTILS = {"python": "Python", "excel": "Excel", "powerpoint": "PowerPoint", "vba": "VBA", "sql": "SQL",
+          "power ?bi": "Power BI", "tableau": "Tableau", "sap": "SAP", "dataiku": "Dataiku", "alteryx": "Alteryx",
+          "java": "Java", "c\\+\\+": "C++", "julia": "Julia", "matlab": "MATLAB", "simulink": "Simulink",
+          "ansys": "Ansys", "abaqus": "Abaqus", "comsol": "COMSOL", "catia": "CATIA", "solidworks": "SolidWorks",
+          "autocad": "AutoCAD", "revit": "Revit", "labview": "LabVIEW", "qgis": "QGIS", "pvsyst": "PVsyst"}
+OUTILS_CV = {"Excel", "PowerPoint", "MATLAB"}
+NIVEAU_FIN_ETUDES = r"fin d.?etudes|derniere annee|bac ?\+ ?5|master 2|\bm2\b|cesure|futur(e)? diplome"
+
+
+def profil(offre, infos):
+    """Compatibilité de l'offre avec le profil : thèmes du CV, dates, niveau d'études et logiciels demandés."""
+    t = analyse.norm(offre["titre"] + "\n" + offre.get("texte", ""))
+    forts, attention = [], []
+    if infos["couverts"]:
+        forts.append("Ton CV illustre : " + ", ".join(infos["couverts"][:4]))
+    if infos["manquants"]:
+        attention.append("Peu ou pas présent dans ton CV : " + ", ".join(infos["manquants"][:4]))
+
+    statut = offre.get("compat", {}).get("statut", "inconnu")
+    note_dates = {"ok": 100, "proche": 60, "inconnu": 50, "ko": 0}[statut]
+    if statut == "ok":
+        forts.append("Dates compatibles avec 3 mois de mai à juillet 2027")
+    elif statut == "ko":
+        attention.append("Dates / durée incompatibles (souvent 6 mois)")
+    else:
+        attention.append("Durée ou dates à confirmer avec l'entreprise")
+
+    note_niveau = 100
+    if re.search(NIVEAU_FIN_ETUDES, t):
+        note_niveau = 30
+        attention.append("Offre plutôt destinée à un stage de fin d'études / bac+5 : tu seras en 2e année")
+    elif re.search(r"2e annee|2eme annee|deuxieme annee|bac ?\+ ?4|\bm1\b|assistant ingenieur|stage d.?application", t):
+        forts.append("Niveau demandé : 2e année / bac+4, comme toi")
+
+    demandes = [nom for rx, nom in OUTILS.items() if re.search(r"\b" + rx + r"(?!\w)", t)]
+    if [n for n in demandes if n in OUTILS_CV]:
+        forts.append("Logiciels demandés que tu maîtrises : " + ", ".join(n for n in demandes if n in OUTILS_CV))
+    absents = [n for n in demandes if n not in OUTILS_CV]
+    if absents:
+        attention.append("Logiciels demandés absents de ton CV : " + ", ".join(absents))
+    if re.search(r"anglais.{0,20}bilingue|bilingue.{0,20}anglais|bilingual", t):
+        attention.append("Anglais bilingue demandé (tu es B2 – C1)")
+    elif re.search(r"anglais (courant|professionnel)|fluent|english", t):
+        forts.append("Anglais demandé : ton niveau B2 – C1 convient")
+
+    score = round(0.6 * infos["adequation"] + 0.25 * note_dates + 0.15 * note_niveau - min(15, 5 * len(absents)))
+    score = max(0, min(100, score))
+    verdict = ("Très compatible" if score >= 70 else "Compatible" if score >= 55
+               else "Partiellement compatible" if score >= 40 else "Peu compatible")
+    return {"score": score, "verdict": verdict, "forts": forts, "attention": attention}
 
 
 def _conseils(manquants, offre):

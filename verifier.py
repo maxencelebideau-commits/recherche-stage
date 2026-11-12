@@ -26,6 +26,15 @@ def a_afficher(o):
     return o.get("stage") and o.get("pertinente") and o.get("lieu_statut") != "hors"
 
 
+def rafraichir(o):
+    """Réapplique les règles d'analyse actuelles (dates, thèmes, pertinence) à une offre déjà enregistrée."""
+    o["compat"] = analyse.compatibilite(o["titre"], o.get("texte", ""))
+    o["themes"] = analyse.themes_offre(o["titre"], o.get("texte", ""))
+    o["domaines"] = analyse.domaines(o["themes"])
+    o["pertinente"] = analyse.pertinente(o["titre"], o["domaines"])
+    return o
+
+
 def a_notifier(o, cfg):
     return (a_afficher(o) and o["compat"]["statut"] in cfg["notifier_compat"]
             and o["lieu_statut"] in cfg["notifier_lieux"])
@@ -41,7 +50,9 @@ def notifier(o, cfg):
         lignes.append("• " + m[:160])
     actions = [{"action": "view", "label": "Voir l'offre / postuler", "url": o["url"]}]
     if cfg.get("site_url"):
-        actions.append({"action": "view", "label": "CV adapté", "url": f"{cfg['site_url'].rstrip('/')}/cv/{o['id']}.html"})
+        site = cfg["site_url"].rstrip("/")
+        actions.append({"action": "view", "label": "CV adapté", "url": f"{site}/cv/{o['id']}.html"})
+        actions.append({"action": "view", "label": "Lettre", "url": f"{site}/lettre/{o['id']}.html"})
     requests.post(cfg["ntfy_serveur"], timeout=15, json={
         "topic": cfg["ntfy_sujet"],
         "title": f"{o['entreprise']} – {o['titre']}"[:200],

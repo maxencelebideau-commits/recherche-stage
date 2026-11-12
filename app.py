@@ -10,6 +10,7 @@ from flask import Flask, abort, jsonify, redirect, render_template, request, url
 
 import analyse
 import cv_adapt
+import lettre
 import sources
 import stockage
 import verifier
@@ -48,10 +49,9 @@ def _slug(nom):
 @app.route("/")
 def accueil():
     ents = {e["id"]: e for e in stockage.entreprises()}
-    liste = [o for o in stockage.offres().values()
+    # Règles d'analyse à jour, même pour les offres déjà enregistrées.
+    liste = [o for o in map(verifier.rafraichir, stockage.offres().values())
              if verifier.a_afficher(o) and o["entreprise_id"] in ents]
-    for o in liste:  # profite des règles de dates à jour, même pour les offres déjà enregistrées
-        o["compat"] = analyse.compatibilite(o["titre"], o.get("texte", ""))
     ordre = {"ok": 0, "proche": 1, "inconnu": 2, "ko": 3}
     liste.sort(key=lambda o: o["trouve_le"], reverse=True)  # plus récentes d'abord, à compatibilité égale
     liste.sort(key=lambda o: (not o["en_ligne"], ordre[o["compat"]["statut"]]))
@@ -73,9 +73,20 @@ def cv(oid=None):
     return render_template("cv.html", cv=cv_, offre=offre, infos=infos, photo_url=photo, site=False)
 
 
+@app.route("/lettre/<oid>")
+def lettre_offre(oid):
+    offre = stockage.offres().get(oid) or abort(404)
+    verifier.rafraichir(offre)
+    l, infos = lettre.generer(offre)
+    cv_ = stockage.cv()
+    return render_template("lettre.html", lettre=l, infos=infos, offre=offre, site=False,
+                           nom=f"{cv_['nom']} {cv_['nom_famille']}", contact=cv_.get("contact", []))
+
+
 @app.route("/cv/<oid>/analyse")
 def cv_analyse(oid):
     offre = stockage.offres().get(oid) or abort(404)
+    verifier.rafraichir(offre)
     return jsonify(cv_adapt.adapter(offre)[1])
 
 

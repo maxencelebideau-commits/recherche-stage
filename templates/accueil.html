@@ -120,16 +120,17 @@ async function choisir(id) {
     <div class="tete">
       <div class="titre">CV adapté · ${esc(o.entreprise)}</div>
       <a class="btn petit" href="/cv/${id}" target="_blank">Ouvrir / PDF</a>
+      <a class="btn petit" href="/lettre/${id}" target="_blank">Lettre</a>
       <a class="btn primaire petit" href="${esc(o.url)}" target="_blank" rel="noopener">Postuler ↗</a>
     </div>
     <div class="analyse" id="analyse">Analyse…</div>
     <iframe src="/cv/${id}?embed=1" title="CV adapté"></iframe>`;
   const a = await (await fetch(`/cv/${id}/analyse`)).json();
   $('analyse').innerHTML = `
-    <b>Adéquation CV / offre : ${a.adequation} %</b>
-    <div class="jauge"><i style="width:${a.adequation}%"></i></div>
-    ${a.couverts.length ? `<div>✅ Mis en avant : ${a.couverts.map(esc).join(', ')}</div>` : ''}
-    ${a.manquants.length ? `<div>⚠️ Demandé mais absent du CV : ${a.manquants.map(esc).join(', ')}</div>` : ''}
+    <b>Compatibilité avec ton profil : ${a.profil.score} % – ${esc(a.profil.verdict)}</b>
+    <div class="jauge"><i style="width:${a.profil.score}%"></i></div>
+    ${a.profil.forts.map(f => `<div>✅ ${esc(f)}</div>`).join('')}
+    ${a.profil.attention.map(f => `<div>⚠️ ${esc(f)}</div>`).join('')}
     ${a.conseils.length ? `<ul>${a.conseils.map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}`;
 }
 

@@ -44,6 +44,16 @@ sur `https://<ton-pseudo>.github.io/<nom-du-depot>/`.
 - les logiciels cités dans l'offre mis en avant ;
 - un panneau « Adéquation » : ce qui est couvert, ce qui manque, et des conseils pour la lettre.
 
+## Lettre de motivation et compatibilité (sans IA)
+
+Chaque offre a sa lettre (bouton « Lettre », aussi dans la notification) :
+- elle cite deux missions concrètes de l'offre et ne raconte que tes expériences réelles les plus proches
+  (phrases dans `lettre.py`, à garder fidèles au CV) ; elle n'affirme jamais une compétence demandée absente du CV ;
+- clique dans la lettre pour la modifier (gardé sur l'appareil), puis « Enregistrer en PDF » ou « Copier le texte ».
+
+La **compatibilité avec ton profil** (en %) combine les thèmes de l'offre illustrés par ton CV, les dates
+(3 mois mai–juillet), le niveau demandé (fin d'études / bac+5 ou 2e année) et les logiciels demandés absents du CV.
+
 Rien n'est inventé : pour modifier le contenu du CV, édite `data/cv.json`
 (chaque élément porte des `themes` qui servent au classement).
 
