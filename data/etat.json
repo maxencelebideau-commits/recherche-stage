@@ -1,6 +1,6 @@
 {
   "wavestone": {
-    "derniere": "2026-11-13T14:10:28",
+    "derniere": "2026-11-13T15:56:01",
     "initialise": true,
     "erreur": null,
     "trouvees": 190,
@@ -10,7 +10,7 @@
     "premiere_fois": false
   },
   "sia-partners": {
-    "derniere": "2026-11-13T14:10:28",
+    "derniere": "2026-11-13T15:56:01",
     "initialise": true,
     "erreur": null,
     "trouvees": 21,
@@ -20,7 +20,7 @@
     "premiere_fois": false
   },
   "bearingpoint": {
-    "derniere": "2026-11-13T14:10:28",
+    "derniere": "2026-11-13T15:56:01",
     "initialise": true,
     "erreur": null,
     "trouvees": 100,
@@ -30,7 +30,7 @@
     "premiere_fois": false
   },
   "accenture": {
-    "derniere": "2026-11-13T14:10:28",
+    "derniere": "2026-11-13T15:56:01",
     "initialise": true,
     "erreur": "KeyError: 'externalPath'",
     "trouvees": 72,
@@ -40,7 +40,7 @@
     "premiere_fois": false
   },
   "colombus-consulting": {
-    "derniere": "2026-11-13T14:10:28",
+    "derniere": "2026-11-13T15:56:01",
     "initialise": true,
     "erreur": null,
     "trouvees": 14,
@@ -50,7 +50,7 @@
     "premiere_fois": false
   },
   "artelys": {
-    "derniere": "2026-11-13T14:10:28",
+    "derniere": "2026-11-13T15:56:01",
     "initialise": true,
     "erreur": null,
     "trouvees": 6,
@@ -60,17 +60,17 @@
     "premiere_fois": false
   },
   "assystem": {
-    "derniere": "2026-11-13T14:10:28",
+    "derniere": "2026-11-13T15:56:01",
     "initialise": true,
     "erreur": null,
-    "trouvees": 252,
+    "trouvees": 254,
     "stages": 9,
     "nouvelles": 0,
     "notifiees": 0,
     "premiere_fois": false
   },
   "alten": {
-    "derniere": "2026-11-13T14:10:28",
+    "derniere": "2026-11-13T15:56:01",
     "initialise": true,
     "erreur": null,
     "trouvees": 196,
@@ -80,7 +80,7 @@
     "premiere_fois": false
   },
   "artelia": {
-    "derniere": "2026-11-13T14:10:28",
+    "derniere": "2026-11-13T15:56:01",
     "initialise": true,
     "erreur": null,
     "trouvees": 152,
@@ -90,7 +90,7 @@
     "premiere_fois": false
   },
   "setec": {
-    "derniere": "2026-11-13T14:10:28",
+    "derniere": "2026-11-13T15:56:01",
     "initialise": true,
     "erreur": "SSLError: HTTPSConnectionPool(host='setec.nous-recrutons.fr', port=443): Max retries exceeded with url: /offres-emploi/ (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1018)')))",
     "trouvees": 6,
@@ -100,7 +100,7 @@
     "premiere_fois": false
   },
   "totalenergies": {
-    "derniere": "2026-11-13T14:10:28",
+    "derniere": "2026-11-13T15:56:01",
     "initialise": true,
     "erreur": null,
     "trouvees": 14,
