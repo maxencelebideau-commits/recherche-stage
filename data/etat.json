@@ -1,6 +1,6 @@
 {
   "wavestone": {
-    "derniere": "2026-11-17T14:10:45",
+    "derniere": "2026-11-17T15:58:38",
     "initialise": true,
     "erreur": null,
     "trouvees": 190,
@@ -10,17 +10,17 @@
     "premiere_fois": false
   },
   "sia-partners": {
-    "derniere": "2026-11-17T14:10:45",
+    "derniere": "2026-11-17T15:58:38",
     "initialise": true,
     "erreur": null,
-    "trouvees": 21,
-    "stages": 19,
+    "trouvees": 20,
+    "stages": 18,
     "nouvelles": 0,
     "notifiees": 0,
     "premiere_fois": false
   },
   "bearingpoint": {
-    "derniere": "2026-11-17T14:10:45",
+    "derniere": "2026-11-17T15:58:38",
     "initialise": true,
     "erreur": null,
     "trouvees": 100,
@@ -30,7 +30,7 @@
     "premiere_fois": false
   },
   "accenture": {
-    "derniere": "2026-11-17T14:10:45",
+    "derniere": "2026-11-17T15:58:38",
     "initialise": true,
     "erreur": "HTTPError: 429 Client Error: Too Many Requests for url: https://accenture.wd103.myworkdayjobs.com/wday/cxs/accenture/AccentureCareers/jobs",
     "trouvees": 72,
@@ -40,7 +40,7 @@
     "premiere_fois": false
   },
   "colombus-consulting": {
-    "derniere": "2026-11-17T14:10:45",
+    "derniere": "2026-11-17T15:58:38",
     "initialise": true,
     "erreur": null,
     "trouvees": 14,
@@ -50,7 +50,7 @@
     "premiere_fois": false
   },
   "artelys": {
-    "derniere": "2026-11-17T14:10:45",
+    "derniere": "2026-11-17T15:58:38",
     "initialise": true,
     "erreur": null,
     "trouvees": 6,
@@ -60,7 +60,7 @@
     "premiere_fois": false
   },
   "assystem": {
-    "derniere": "2026-11-17T14:10:45",
+    "derniere": "2026-11-17T15:58:38",
     "initialise": true,
     "erreur": null,
     "trouvees": 248,
@@ -70,7 +70,7 @@
     "premiere_fois": false
   },
   "alten": {
-    "derniere": "2026-11-17T14:10:45",
+    "derniere": "2026-11-17T15:58:38",
     "initialise": true,
     "erreur": null,
     "trouvees": 183,
@@ -80,17 +80,17 @@
     "premiere_fois": false
   },
   "artelia": {
-    "derniere": "2026-11-17T14:10:45",
+    "derniere": "2026-11-17T15:58:38",
     "initialise": true,
     "erreur": null,
-    "trouvees": 152,
+    "trouvees": 150,
     "stages": 1,
     "nouvelles": 0,
     "notifiees": 0,
     "premiere_fois": false
   },
   "setec": {
-    "derniere": "2026-11-17T14:10:45",
+    "derniere": "2026-11-17T15:58:38",
     "initialise": true,
     "erreur": "SSLError: HTTPSConnectionPool(host='setec.nous-recrutons.fr', port=443): Max retries exceeded with url: /offres-emploi/ (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1018)')))",
     "trouvees": 6,
@@ -100,10 +100,10 @@
     "premiere_fois": false
   },
   "totalenergies": {
-    "derniere": "2026-11-17T14:10:45",
+    "derniere": "2026-11-17T15:58:38",
     "initialise": true,
     "erreur": null,
-    "trouvees": 17,
+    "trouvees": 16,
     "stages": 14,
     "nouvelles": 0,
     "notifiees": 0,
